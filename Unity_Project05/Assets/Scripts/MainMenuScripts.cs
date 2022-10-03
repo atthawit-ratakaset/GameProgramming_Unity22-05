@@ -1,12 +1,18 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 public class MainMenuScripts : MonoBehaviour
-{
+{   
+    private GameManager _gameManager;
+
+    private void Start()
+    {   
+        FindGameManager();
+    }
+    
     public void PlayButton()
     {
-        SceneManager.LoadScene("Level 1");
+        _gameManager.LoadNextLevel();
     }
     
     public void QuitButton()
@@ -15,19 +21,9 @@ public class MainMenuScripts : MonoBehaviour
         Debug.Log("Game Quit");
     }
     
-    private void OnQuit(InputValue value)
+    private void FindGameManager()
     {
-        if (!value.isPressed) return;
-        
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            QuitButton();
-            Debug.Log("Escape was pressed");
-        }
-        else
-        {
-            Debug.Log("Start");
-            PlayButton();
-        }
+        if (_gameManager != null) return;
+        _gameManager = FindObjectOfType<GameManager>();
     }
 }

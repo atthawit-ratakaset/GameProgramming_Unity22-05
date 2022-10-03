@@ -1,37 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public Rigidbody2D rb;
     public float moveSpeed = 5f;
 
-    public InputAction playerControls;
+    public Rigidbody2D rb;
 
-    Vector2 moveDirection = Vector2.zero;
+    public Animator animator;
 
-    private void OnEnable() 
-    {
-        
-        playerControls.Enable();
-        
-    }
-
-    private void OnDisable() 
-    {
-        playerControls.Disable();    
-    }
+    Vector2 movement;
 
     private void Update() 
     {
-        moveDirection = playerControls.ReadValue<Vector2>();
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
+        animator.SetFloat("Horizontal", movement.x);
+        animator.SetFloat("Vertical", movement.y);
+        animator.SetFloat("Speed", movement.sqrMagnitude);
     }
 
-    private void FixedUpdate() {
-        {
-            rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
-        }
+    private void FixedUpdate() 
+    {
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 }

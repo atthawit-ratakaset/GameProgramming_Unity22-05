@@ -8,7 +8,7 @@ public class PlayerTeleporter : MonoBehaviour
 
     private void Update() 
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || (Input.GetKeyDown(KeyCode.Joystick1Button0)))
         {
             if (currentTeleporter != null)
             {
@@ -22,7 +22,6 @@ public class PlayerTeleporter : MonoBehaviour
         if (other.CompareTag("Teleporter"))
         {
             currentTeleporter = other.gameObject;
-            Debug.Log("Preessed E to use!");
         }
     }
 
